@@ -53,6 +53,7 @@ struct EntryView: View {
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

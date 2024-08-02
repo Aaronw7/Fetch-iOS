@@ -23,4 +23,8 @@ class MealListViewModel: ObservableObject {
         }
         isLoading = false
     }
+    
+    var randomMealImages: [URL] {
+        Array(meals.shuffled().prefix(3).compactMap { $0.thumbnail })
+    }
 }

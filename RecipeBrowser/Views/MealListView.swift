@@ -10,20 +10,33 @@ import SwiftUI
 struct MealListView: View {
     @StateObject var viewModel = MealListViewModel()
     
-    var activities = ["Archery", "Baseball", "Basketball", "Bowling", "Boxing", "Cricket", "Curling", "Fencing", "Golf", "Hiking", "Lacrosse", "Rugby", "Squash"]
-    
-    var colors: [Color] = [.blue, .cyan, .gray, .green, .indigo, .mint, .orange, .pink, .purple, .red]
-
-
-    @State var selected = "Baseball"
-    @State private var id = 1
-    
     var body: some View {
         VStack {
-            Text("Recipe Browser")
-                .font(.largeTitle.bold())
+            HStack {
+                Text("Discover your favorite desserts")
+                    .font(.title.bold())
+                    .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                Spacer()
+            }
             
-            Spacer()
+            if !viewModel.randomMealImages.isEmpty {
+                TabView {
+                    ForEach(viewModel.randomMealImages, id: \.self) { url in
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .cornerRadius(12)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
+                }
+                .frame(height: 200)
+                .tabViewStyle(PageTabViewStyle())
+            }
+            
+            Divider()
             
             List(viewModel.meals) { meal in
                 HStack {
@@ -36,11 +49,27 @@ struct MealListView: View {
                         .frame(width: 50, height: 50)
                     }
                     Text(meal.name)
+                        .font(.headline.bold())
                 }
+                .padding(.vertical, 5)
+                .listRowBackground(
+                    RoundedRectangle(cornerRadius: 5)
+                        .foregroundColor(Color(white: 0.87, opacity: 0.6))
+                        .padding(
+                            EdgeInsets(
+                                top: 3,
+                                leading: 0,
+                                bottom: 3,
+                                trailing: 0
+                            )
+                        )
+                )
+                .listRowSeparator(.hidden)
             }
-            .listStyle(.inset)
-            .padding()
-            .navigationTitle("Desserts")
+            .listStyle(.plain)
+            .cornerRadius(12)
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Desserts List")
             .onAppear {
                 Task {
                     await viewModel.loadMeals()
@@ -50,42 +79,15 @@ struct MealListView: View {
                 if viewModel.isLoading {
                     ProgressView("Loading...")
                 }
-                else {
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(.black, lineWidth: 2)
-                }
             }
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(title: Text("Error"), message: Text(viewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
             }
-            
-//            VStack{
-//                Circle()
-//                    .fill(colors.randomElement() ?? .blue)
-//                    .padding()
-//                    .overlay(
-//                        Image(systemName: "figure.\(selected.lowercased())")
-//                            .font(.system(size: 144))
-//                            .foregroundColor(.white)
-//                    )
-//                Text("\(selected)")
-//                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-//
-//            }
-//            .transition(.slide)
-//            .id(id)
-            
-//            Spacer()
-//            
-//            Button("Try Again") {
-//                withAnimation(.easeInOut(duration: 1)){
-//                    selected = activities.randomElement() ?? "Archery"
-//                    id += 1
-//                }
-//            }
-//            .buttonStyle(.borderedProminent)
         }
         .padding()
+        .background(
+            LinearGradient(gradient: Gradient(colors: [Color.white, Color(white: 0.9)]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
     }
 }
 
