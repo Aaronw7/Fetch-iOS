@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MealListView: View {
     @StateObject var viewModel = MealListViewModel()
     
     var activities = ["Archery", "Baseball", "Basketball", "Bowling", "Boxing", "Cricket", "Curling", "Fencing", "Golf", "Hiking", "Lacrosse", "Rugby", "Squash"]
@@ -90,5 +90,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    MealListView()
 }
