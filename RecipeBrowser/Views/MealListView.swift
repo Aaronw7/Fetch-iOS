@@ -54,7 +54,7 @@ struct MealListView: View {
                 .padding(.vertical, 5)
                 .listRowBackground(
                     RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(Color(white: 0.87, opacity: 0.6))
+                        .foregroundColor(Color(white: 0.86, opacity: 0.6))
                         .padding(
                             EdgeInsets(
                                 top: 3,
