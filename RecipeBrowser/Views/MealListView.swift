@@ -26,12 +26,12 @@ struct MealListView: View {
                             image
                                 .resizable()
                                 .scaledToFill()
-                                .cornerRadius(12)
                         } placeholder: {
                             ProgressView()
                         }
                     }
                 }
+                .cornerRadius(12)
                 .frame(height: 200)
                 .tabViewStyle(PageTabViewStyle())
             }
@@ -39,17 +39,19 @@ struct MealListView: View {
             Divider()
             
             List(viewModel.meals) { meal in
-                HStack {
-                    if let url = meal.thumbnail {
-                        AsyncImage(url: url) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
+                NavigationLink(destination: MealDetailView(meal: meal)) {
+                    HStack {
+                        if let url = meal.thumbnail {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 50, height: 50)
                         }
-                        .frame(width: 50, height: 50)
+                        Text(meal.name)
+                            .font(.headline.bold())
                     }
-                    Text(meal.name)
-                        .font(.headline.bold())
                 }
                 .padding(.vertical, 5)
                 .listRowBackground(
