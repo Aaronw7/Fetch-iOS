@@ -8,33 +8,40 @@
 import SwiftUI
 
 struct MealDetailView: View {
-    let meal: Meal
-    
+    let mealID: String
+    @StateObject private var viewModel = MealDetailViewModel()
+
     var body: some View {
         VStack {
-            if let url = meal.thumbnail {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 200)
-                        .cornerRadius(12)
-                } placeholder: {
-                    ProgressView()
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+            } else if let errorMessage = viewModel.errorMessage {
+                Text("Error: \(errorMessage)")
+            } else if let meal = viewModel.selectedMeal {
+                Text(meal.name)
+                    .font(.largeTitle)
+                Text(meal.instructions)
+                ForEach(meal.ingredients) { ingredient in
+                    HStack {
+                        Text(ingredient.name)
+                        Spacer()
+                        Text(ingredient.measure)
+                    }
                 }
+            } else {
+                Text("No meal details available.")
             }
-            Text(meal.name)
-                .font(.title)
-                .padding()
-            // Add more meal details here
-            Spacer()
         }
         .padding()
-        .navigationTitle(meal.name)
+        .navigationTitle("Meal Details")
+        .onAppear {
+            Task {
+                await viewModel.fetchMealDetail(id: mealID)
+            }
+        }
     }
 }
 
 #Preview {
-    MealDetailView(meal: Meal(id: "52772", name: "Dessert Name", thumbnail: URL(string: "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg")))
+    MealDetailView(mealID: "52772")
 }
-

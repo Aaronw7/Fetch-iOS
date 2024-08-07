@@ -54,7 +54,7 @@ struct MealListView: View {
                     Divider()
                     
                     List(viewModel.meals) { meal in
-                        NavigationLink(destination: MealDetailView(meal: meal)) {
+                        NavigationLink(destination: MealDetailView(mealID: meal.id)) {
                             HStack {
                                 if let url = meal.thumbnail {
                                     AsyncImage(url: url) { image in

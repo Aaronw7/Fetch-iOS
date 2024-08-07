@@ -17,4 +17,14 @@ class MealService {
         let response = try JSONDecoder().decode(MealListResponse.self, from: data)
         return response.meals.sorted { $0.name < $1.name }
     }
+
+    func fetchMealDetail(id: String) async throws -> MealDetail {
+        let url = URL(string: "\(baseURL)lookup.php?i=\(id)")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let response = try JSONDecoder().decode(MealDetailResponse.self, from: data)
+        guard let mealDetail = response.meals.first else {
+            throw URLError(.badServerResponse)
+        }
+        return mealDetail
+    }
 }
