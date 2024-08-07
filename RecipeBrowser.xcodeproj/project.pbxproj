@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D10EAE932C630F23006C8665 /* MealDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10EAE922C630F23006C8665 /* MealDetail.swift */; };
 		D18664102C5C4D5A00D2A8AE /* RecipeBrowserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186640F2C5C4D5A00D2A8AE /* RecipeBrowserApp.swift */; };
 		D18664122C5C4D5A00D2A8AE /* MealListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18664112C5C4D5A00D2A8AE /* MealListView.swift */; };
 		D18664142C5C4D5E00D2A8AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D18664132C5C4D5E00D2A8AE /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D10EAE922C630F23006C8665 /* MealDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetail.swift; sourceTree = "<group>"; };
 		D186640C2C5C4D5A00D2A8AE /* RecipeBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipeBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D186640F2C5C4D5A00D2A8AE /* RecipeBrowserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBrowserApp.swift; sourceTree = "<group>"; };
 		D18664112C5C4D5A00D2A8AE /* MealListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListView.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D18664242C5C6CDC00D2A8AE /* Meal.swift */,
+				D10EAE922C630F23006C8665 /* MealDetail.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				D18664252C5C6CDC00D2A8AE /* Meal.swift in Sources */,
 				D18664102C5C4D5A00D2A8AE /* RecipeBrowserApp.swift in Sources */,
 				D18664342C5DA6EB00D2A8AE /* MealDetailView.swift in Sources */,
+				D10EAE932C630F23006C8665 /* MealDetail.swift in Sources */,
 				D186642A2C5C742C00D2A8AE /* MealListViewModel.swift in Sources */,
 				D18664302C5D6B6500D2A8AE /* EntryView.swift in Sources */,
 			);
