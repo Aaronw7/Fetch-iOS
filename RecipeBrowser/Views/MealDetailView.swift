@@ -88,7 +88,7 @@ struct MealDetailView: View {
                             .padding(.horizontal, 40)
                             .background(Color.white.opacity(0.8))
                             .overlay(
-                                RoundedRectangle(cornerRadius: 16)
+                                RoundedRectangle(cornerRadius: 10)
                                     .stroke(.black, lineWidth: 1)
                             )
                         }
