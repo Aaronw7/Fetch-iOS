@@ -10,33 +10,100 @@ import SwiftUI
 struct MealDetailView: View {
     let mealID: String
     @StateObject private var viewModel = MealDetailViewModel()
-
+    
     var body: some View {
-        VStack {
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-            } else if let errorMessage = viewModel.errorMessage {
-                Text("Error: \(errorMessage)")
-            } else if let meal = viewModel.selectedMeal {
-                Text(meal.name)
-                    .font(.largeTitle)
-                Text(meal.instructions)
-                ForEach(meal.ingredients) { ingredient in
-                    HStack {
-                        Text(ingredient.name)
-                        Spacer()
-                        Text(ingredient.measure)
-                    }
-                }
-            } else {
-                Text("No meal details available.")
+        ZStack {
+            GeometryReader { geometry in
+                Image("neutral-background")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width)
+                    .clipped()
+                    .opacity(0.8)
+                    .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             }
-        }
-        .padding()
-        .navigationTitle("Meal Details")
-        .onAppear {
-            Task {
-                await viewModel.fetchMealDetail(id: mealID)
+
+            ScrollView {
+                VStack {
+                    GeometryReader { geometry in
+                        if let thumbnail = viewModel.selectedMeal?.thumbnail {
+                            AsyncImage(url: thumbnail) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                                    .clipped()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
+                    }
+                    .frame(height: 300)
+                    .edgesIgnoringSafeArea(.top)
+                    
+                    VStack(alignment: .leading, spacing: 16) {
+                        if let meal = viewModel.selectedMeal {
+                            Text(meal.name)
+                                .font(
+                                    .largeTitle
+                                        .weight(.heavy)
+                                )
+                                .padding(.vertical)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.white.opacity(0.8))
+                                        .padding(.horizontal, -10) .padding(.vertical, -5)
+                                )
+                            
+                            VStack {
+                                Text("Instructions")
+                                    .font(
+                                        .title2
+                                            .weight(.bold)
+                                    )
+                                    .padding(.bottom)
+                                    .underline()
+                                
+                                Text(meal.instructions)
+                            }
+                            
+                            VStack {
+                                Text("Ingredients")
+                                    .font(
+                                        .title2
+                                            .weight(.bold)
+                                    )
+                                    .padding(.bottom)
+                                    .underline()
+                                
+                                ForEach(meal.ingredients) { ingredient in
+                                    HStack {
+                                        Text(ingredient.name)
+                                        Spacer()
+                                        Text(ingredient.measure)
+                                    }
+                                }
+                            }
+                            .padding(.vertical, 32)
+                            .padding(.horizontal, 40)
+                            .background(Color.white.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.black, lineWidth: 1)
+                            )
+                        }
+                    }
+                    .padding(.top, -50)
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                    .background(Color.white.opacity(0.25))
+                }
+            }
+            .navigationTitle(viewModel.selectedMeal?.name ?? "Meal Details")
+            .onAppear {
+                Task {
+                    await viewModel.fetchMealDetail(id: mealID)
+                }
             }
         }
     }
